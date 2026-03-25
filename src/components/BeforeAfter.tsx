@@ -167,7 +167,7 @@ export function BeforeAfterLesson({ lesson, moduleColor, lessonId, onComplete }:
       {/* Labels */}
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16, alignItems: 'center' }}>
         <span className="badge badge-coral">{lesson.beforeLabel}</span>
-        <span style={{ fontSize: '0.8rem', color: 'var(--bark-muted)' }}>← drag to compare →</span>
+        <span style={{ fontSize: '0.8rem', color: 'var(--bark-muted)' }}>← drag left to reveal</span>
         <span className="badge badge-amber">{lesson.afterLabel}</span>
       </div>
 
@@ -192,19 +192,19 @@ export function BeforeAfterLesson({ lesson, moduleColor, lessonId, onComplete }:
         onTouchMove={(e) => { if (isDragging) updateSlider(e.touches[0].clientX) }}
         onTouchEnd={() => setIsDragging(false)}
       >
-        {/* Before panel (full — base layer, always on left) */}
+        {/* After panel — base layer, always visible, shows on the RIGHT as Before shrinks */}
         <div style={{ position: 'absolute', inset: 0 }}>
-          {getBeforeContent(lessonId)}
+          {getAfterContent(lessonId)}
         </div>
 
-        {/* After panel (clipped to right of slider — revealed by dragging left) */}
+        {/* Before panel — clipped to LEFT up to the slider; drag left to shrink it and reveal After */}
         <div style={{
           position: 'absolute',
           inset: 0,
-          clipPath: `polygon(${sliderX}% 0, 100% 0, 100% 100%, ${sliderX}% 100%)`,
+          clipPath: `polygon(0 0, ${sliderX}% 0, ${sliderX}% 100%, 0 100%)`,
           transition: isDragging ? 'none' : 'clip-path 0.05s',
         }}>
-          {getAfterContent(lessonId)}
+          {getBeforeContent(lessonId)}
         </div>
 
         {/* Divider line */}

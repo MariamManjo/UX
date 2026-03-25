@@ -143,7 +143,7 @@ function getAfterContent(lessonId: string) {
 }
 
 export function BeforeAfterLesson({ lesson, moduleColor, lessonId, onComplete }: BeforeAfterProps) {
-  const [sliderX, setSliderX] = useState(50)
+  const [sliderX, setSliderX] = useState(80)
   const [isDragging, setIsDragging] = useState(false)
   const [interacted, setInteracted] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -192,16 +192,16 @@ export function BeforeAfterLesson({ lesson, moduleColor, lessonId, onComplete }:
         onTouchMove={(e) => { if (isDragging) updateSlider(e.touches[0].clientX) }}
         onTouchEnd={() => setIsDragging(false)}
       >
-        {/* Before panel (full — base layer, visible on right) */}
+        {/* Before panel (full — base layer, always on left) */}
         <div style={{ position: 'absolute', inset: 0 }}>
           {getBeforeContent(lessonId)}
         </div>
 
-        {/* After panel (clipped from left — visible on left up to slider) */}
+        {/* After panel (clipped to right of slider — revealed by dragging left) */}
         <div style={{
           position: 'absolute',
           inset: 0,
-          clipPath: `polygon(0 0, ${sliderX}% 0, ${sliderX}% 100%, 0 100%)`,
+          clipPath: `polygon(${sliderX}% 0, 100% 0, 100% 100%, ${sliderX}% 100%)`,
           transition: isDragging ? 'none' : 'clip-path 0.05s',
         }}>
           {getAfterContent(lessonId)}

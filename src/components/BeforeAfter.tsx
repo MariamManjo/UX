@@ -192,19 +192,19 @@ export function BeforeAfterLesson({ lesson, moduleColor, lessonId, onComplete }:
         onTouchMove={(e) => { if (isDragging) updateSlider(e.touches[0].clientX) }}
         onTouchEnd={() => setIsDragging(false)}
       >
-        {/* After panel (full) */}
+        {/* Before panel (full — base layer, visible on right) */}
         <div style={{ position: 'absolute', inset: 0 }}>
-          {getAfterContent(lessonId)}
+          {getBeforeContent(lessonId)}
         </div>
 
-        {/* Before panel (clipped) */}
+        {/* After panel (clipped from left — visible on left up to slider) */}
         <div style={{
           position: 'absolute',
           inset: 0,
           clipPath: `polygon(0 0, ${sliderX}% 0, ${sliderX}% 100%, 0 100%)`,
           transition: isDragging ? 'none' : 'clip-path 0.05s',
         }}>
-          {getBeforeContent(lessonId)}
+          {getAfterContent(lessonId)}
         </div>
 
         {/* Divider line */}
